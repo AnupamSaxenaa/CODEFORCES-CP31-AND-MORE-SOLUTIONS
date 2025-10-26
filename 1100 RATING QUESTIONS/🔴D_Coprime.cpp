@@ -20,10 +20,26 @@ void solve(){
     // write your solution here
     ll n;
     cin>>n;
-    vector<ll>v(n);
-    for(auto &x : v) cin>>x;
+    vector<ll>v(1001,0);
 
-    
+    ll maxi = -1;
+    for (int i = 1; i <= n; i++){
+        ll temp ;
+        cin>>temp;
+        v[temp] = i;
+    }
+
+    for (int i = 1; i <=  1000; i++)
+    {
+        for (int j = 1; j <= 1000; j++)
+        {
+            if(v[i] && v[j] && gcd(i,j)==1){
+                maxi = max(maxi,v[i]+v[j]);
+            }
+        }
+        
+    }
+    cout<<maxi<<endl;
 }
 
 int main(){
