@@ -4,7 +4,9 @@ using namespace std;
 //-------------------------------//
 //          MACROS               //
 //-------------------------------//
-#define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
+#define fastio                   \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define pb push_back
@@ -51,10 +53,13 @@ ll gcdll(ll a, ll b) { return b ? gcdll(b, a % b) : a; }
 ll lcmll(ll a, ll b) { return (a / gcdll(a, b)) * b; }
 ll mod_add(ll a, ll b, ll m = MOD) { return (a + b) % m; }
 ll mod_mul(ll a, ll b, ll m = MOD) { return (a * b) % m; }
-ll mod_pow(ll a, ll b, ll m = MOD) {
+ll mod_pow(ll a, ll b, ll m = MOD)
+{
     ll res = 1;
-    while (b) {
-        if (b & 1) res = (res * a) % m;
+    while (b)
+    {
+        if (b & 1)
+            res = (res * a) % m;
         a = (a * a) % m;
         b >>= 1;
     }
@@ -64,42 +69,65 @@ ll mod_pow(ll a, ll b, ll m = MOD) {
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
-void solve() {
+void solve()
+{
     // Your logic here
     ll n;
-    cin>>n;
+    cin >> n;
     vl a(n);
-    vector<ll>prefSums;
-    ll sum = 0;
-    for(auto &x : a) {
-        cin>>x;
-        sum+=x;
-        prefSums.push_back(sum);
-    }
+    for (auto &x : a)
+        cin >> x;
 
-    ll maxi = LLONG_MIN;
-    for (int i = 0; i < n-1; i++)
+    if (n == 1)
     {
-        ll sum1 = prefSums[i];
-        ll sum2 = prefSums[n-1]-sum1;
-
-        if(sum1 && sum2){
-            maxi = max(maxi,gcdll(sum1,sum2));
-        }
-        else break;
+        if (a[0] == 1)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
+        return;
     }
-    cout<<maxi<<endl;
 
+    sort(all(a));
+    bool haveTwoOnes = true;
+    int cnt = 0;
+    int i = 0;
+    ll range = 0;
+    while (a[i]==1)
+    {
+        cnt++;
+        i++;
+        range+=1;
+    }
+    if(cnt<2) haveTwoOnes = false;
 
+    if (haveTwoOnes == false)
+    {
+        cout << "NO" << endl;
+        return;
+    }
+
+    for (; i < n; i++)
+    {
+        if(a[i]<=range){
+            range += a[i];
+        }
+        else {
+            cout<<"NO"<<endl;
+            return;
+        }
+    }
+    cout << "YES" << endl;
 }
 
 //-------------------------------//
 //             MAIN              //
 //-------------------------------//
-int main() {
+int main()
+{
     fastio;
     int t = 1;
     cin >> t; // uncomment if multiple test cases
-    while (t--) solve();
+    while (t--)
+        solve();
     return 0;
 }
