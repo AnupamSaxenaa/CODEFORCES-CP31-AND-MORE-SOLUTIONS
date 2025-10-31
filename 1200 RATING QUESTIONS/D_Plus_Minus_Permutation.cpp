@@ -80,14 +80,21 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
+ll sumpls(ll n){
+    return (n*(n+1))/2;
+}
 void solve() {
     // Your logic here
-    ll n;
-    cin>>n;
-    vl a(n);
-    for(auto &x : a) cin>>x;
-
-    
+    ll n,x,y;
+    cin>>n>>x>>y;
+    ll fx=n/x;
+    ll fy=n/y;
+    ll div = lcmll(x,y);
+    ll fall=n/div;
+    fx-=fall;
+    fy-=fall;
+    cout<<(sumpls(n)-sumpls(n-fx)) - sumpls(fy)<<endl;
+    return;
 }
 
 //-------------------------------//
