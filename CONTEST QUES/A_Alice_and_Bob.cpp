@@ -82,30 +82,25 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    ll n;
-    cin>>n;
-    if(n==1) {
-        cout<<"I hate it"<<endl;
-        return;
-    }
+    ll n,a;
+    cin>>n>>a;
+    vl g(n);
+    for(auto &x : g) cin>>x;
+    sort(all(g));
 
-    int toggle = 0;
-    while (n)
-    {
-        if(!toggle) {
-            cout<<"I hate ";
-            toggle = 1-toggle;
-        }
-        else {
-            cout<<"I love ";
-            toggle  = 1-toggle;
-        }
-        n--;
-        if(n>0) cout<<"that ";
-    }
+    int l = 0 , r = 0 , b = 0;
+    for(auto &x : g){
+        if(a>x) l++;
+        else if(a<x) r++;
+    }   
 
-    cout<<"it"<<endl;
-    
+    if(l>=r){
+        b = a-1;
+    }
+    else {
+        b = a+1;
+    }
+    cout<<b<<endl;
 }
 
 //-------------------------------//
@@ -114,7 +109,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
+    cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }

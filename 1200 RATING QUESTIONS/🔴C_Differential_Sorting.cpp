@@ -4,7 +4,9 @@ using namespace std;
 //-------------------------------//
 //          MACROS               //
 //-------------------------------//
-#define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
+#define fastio                   \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define pb push_back
@@ -51,10 +53,13 @@ ll gcdll(ll a, ll b) { return b ? gcdll(b, a % b) : a; }
 ll lcmll(ll a, ll b) { return (a / gcdll(a, b)) * b; }
 ll mod_add(ll a, ll b, ll m = MOD) { return (a + b) % m; }
 ll mod_mul(ll a, ll b, ll m = MOD) { return (a * b) % m; }
-ll mod_pow(ll a, ll b, ll m = MOD) {
+ll mod_pow(ll a, ll b, ll m = MOD)
+{
     ll res = 1;
-    while (b) {
-        if (b & 1) res = (res * a) % m;
+    while (b)
+    {
+        if (b & 1)
+            res = (res * a) % m;
         a = (a * a) % m;
         b >>= 1;
     }
@@ -64,57 +69,72 @@ ll mod_pow(ll a, ll b, ll m = MOD) {
 //-------------------------------//
 //          CUSTOM HASH          //
 //-------------------------------//
-struct CustomHash {
-static uint64_t splitmix64(uint64_t x) {
-x += 0x9e3779b97f4a7c15;
-x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-return x ^ (x >> 31);
+struct CustomHash
+{
+    static uint64_t splitmix64(uint64_t x)
+    {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
-size_t operator()(uint64_t x) const {
-static const uint64_t FIXED_RANDOM = 
-chrono::steady_clock::now().time_since_epoch().count();
-return splitmix64(x + FIXED_RANDOM);
+    size_t operator()(uint64_t x) const
+    {
+        static const uint64_t FIXED_RANDOM =
+            chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
     }
 };
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
-void solve() {
+void solve()
+{
     // Your logic here
     ll n;
-    cin>>n;
-    if(n==1) {
-        cout<<"I hate it"<<endl;
+    cin >> n;
+    vl a(n);
+    for (auto &x : a)
+        cin >> x;
+
+    bool isalready = true;
+    for (int i = 0; i < n-1; i++)
+    {
+        if(a[i]>a[i+1]){
+            isalready = false;
+            break;
+        }
+    }
+
+    if(isalready==true){
+        cout<<0<<endl;
         return;
     }
 
-    int toggle = 0;
-    while (n)
-    {
-        if(!toggle) {
-            cout<<"I hate ";
-            toggle = 1-toggle;
-        }
-        else {
-            cout<<"I love ";
-            toggle  = 1-toggle;
-        }
-        n--;
-        if(n>0) cout<<"that ";
+    if(a[n-2]>a[n-1] || (a[n-2]<=a[n-1] && a[n-1]<0)){
+        cout<<-1<<endl;
+        return;
     }
 
-    cout<<"it"<<endl;
-    
+    int ops = n-2 , sl = n-1 , l = n; 
+    cout<<ops<<endl;
+    for (int i = 1; i <= n-2; i++)
+    {
+        cout<<i<<" "<<sl<<" "<<l<<" "<<endl;
+    }
+
+    return;
 }
 
 //-------------------------------//
 //             MAIN              //
 //-------------------------------//
-int main() {
+int main()
+{
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
-    while (t--) solve();
+    cin >> t; // uncomment if multiple test cases
+    while (t--)
+        solve();
     return 0;
 }

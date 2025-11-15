@@ -84,28 +84,51 @@ void solve() {
     // Your logic here
     ll n;
     cin>>n;
-    if(n==1) {
-        cout<<"I hate it"<<endl;
+    vl a(n);
+    unordered_map<ll,ll>mpp;
+    for(auto &x : a) {
+        cin>>x;
+        mpp[x]++;
+    }
+    sort(all(a));
+
+    if(n==1 || n ==2 || mpp.size()==1){
+        yes;
         return;
     }
-
-    int toggle = 0;
-    while (n)
-    {
-        if(!toggle) {
-            cout<<"I hate ";
-            toggle = 1-toggle;
+    
+    if(n==3){
+        if(mpp.size()==3){
+            no;
+            return;
         }
-        else {
-            cout<<"I love ";
-            toggle  = 1-toggle;
-        }
-        n--;
-        if(n>0) cout<<"that ";
+        if(mpp[a[0]]==1) yes;
+        else no;
+        return;
+        
     }
 
-    cout<<"it"<<endl;
+    //general case bitch
+
+    bool tmkc = true;
+    if(mpp[a[0]]%2!=0){
+        for(auto &x : mpp)
+        {
+            if(x.first!=a[n-1] & x.first!=a[0]){
+                if(x.second%2!=0){
+                    tmkc = false;
+                    break;
+                }
+            }
+        }
+        
+        if(tmkc==false) no;
+        else yes;
+        return;
+    }
     
+    no;
+    return;
 }
 
 //-------------------------------//
@@ -114,7 +137,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
+    cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }

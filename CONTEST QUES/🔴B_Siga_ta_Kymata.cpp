@@ -84,28 +84,39 @@ void solve() {
     // Your logic here
     ll n;
     cin>>n;
-    if(n==1) {
-        cout<<"I hate it"<<endl;
+    vl a(n);
+    for(auto &x : a) cin>>x;
+    string x;
+    cin>>x;
+
+    //edge cases bitch
+
+
+    //4 condition jisko follow hona hi hoga to exist else never gonna exist bitch
+    //first and last bit needs to be 0
+    if(x[0]=='1' || x[n-1]=='1'){
+        cout<<-1<<endl;
+        return;
+    }
+    //min and max ele's bit should also be 0
+    ll mini = LLONG_MAX , maxi = LLONG_MIN ;
+    auto min_it = min_element(all(a));
+    auto max_it = max_element(all(a));
+    ll aa = distance(a.begin(),min_it);
+    ll b = distance(a.begin(),max_it);
+
+    if(x[aa]=='1' || x[b]=='1'){
+        cout<<-1<<endl;
         return;
     }
 
-    int toggle = 0;
-    while (n)
-    {
-        if(!toggle) {
-            cout<<"I hate ";
-            toggle = 1-toggle;
-        }
-        else {
-            cout<<"I love ";
-            toggle  = 1-toggle;
-        }
-        n--;
-        if(n>0) cout<<"that ";
+    vector<pair<ll,ll>>v = {{1,aa+1},{1,b+1},{min(aa+1,b+1),max(aa+1,b+1)},{aa+1,n},{b+1,n}};
+    cout<<5<<endl;
+    for(auto &[dx,dy] : v){
+        cout<<dx<<" "<<dy<<endl;
     }
 
-    cout<<"it"<<endl;
-    
+    return;
 }
 
 //-------------------------------//
@@ -114,7 +125,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
+    cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }

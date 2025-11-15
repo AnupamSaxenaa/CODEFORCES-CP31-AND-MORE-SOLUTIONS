@@ -97,11 +97,10 @@ void solve() {
             toggle = 1-toggle;
         }
         else {
-            cout<<"I love ";
+            cout<<"that I love ";
             toggle  = 1-toggle;
         }
         n--;
-        if(n>0) cout<<"that ";
     }
 
     cout<<"it"<<endl;
@@ -114,7 +113,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
+    cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }

@@ -84,28 +84,28 @@ void solve() {
     // Your logic here
     ll n;
     cin>>n;
-    if(n==1) {
-        cout<<"I hate it"<<endl;
-        return;
+    vl a(n+1,0);
+    for(int i = 1 ; i < n+1 ; i++){
+        ll temp;
+        cin>>temp;
+        a[i] = temp;
     }
+    for (int i = 1; i <=n; i++)
+        a[i] = a[i]-i;
+    stable_sort(a.begin()+1,a.end());
 
-    int toggle = 0;
-    while (n)
+    ll cnt = 1 , ans = 0;
+    for (int i = 1; i <= n-1; i++)
     {
-        if(!toggle) {
-            cout<<"I hate ";
-            toggle = 1-toggle;
+        if(a[i]==a[i+1]) cnt++;
+        else{
+            ans += ((cnt-1)*(cnt))/2;
+            cnt = 1;
         }
-        else {
-            cout<<"I love ";
-            toggle  = 1-toggle;
-        }
-        n--;
-        if(n>0) cout<<"that ";
     }
+    ans += ((cnt-1)*(cnt))/2;
+    cout<<ans<<endl;
 
-    cout<<"it"<<endl;
-    
 }
 
 //-------------------------------//
@@ -114,7 +114,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    // cin >> t; // uncomment if multiple test cases
+    cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }
