@@ -96,7 +96,47 @@ void solve()
     string s;
     cin >> s;
 
-    
+    if (n == 1)
+    {
+        if (s[0] == '1')
+        {
+            cout << "DRAW" << endl;
+            return;
+        }
+        cout << "BOB\n";
+        return;
+    }
+
+    ll z = 0;
+    for (auto &x : s)
+    {
+        if (x == '0')
+            z++;
+    }
+
+    if (z == 0)
+    {
+        cout << "DRAW" << endl;
+        return;
+    }
+
+    if (z % 2 == 0)
+    {
+        cout << "BOB" << endl;
+        return;
+    }
+
+    if (z % 2 != 0 && z >= 3)
+    {
+        cout << "ALICE" << endl;
+        return;
+    }
+    else
+    {
+        cout << "BOB" << endl;
+        return;
+    }
+    return;
 }
 
 //-------------------------------//
