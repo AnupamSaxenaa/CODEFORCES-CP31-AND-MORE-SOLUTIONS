@@ -82,21 +82,20 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    ll l,a,b;
-    cin>>l>>a>>b;
+    ll k,x;
+    cin>>k>>x;
 
-    ll maxi = LLONG_MIN , i = 0;
-    map<ll,ll>mpp;
-    while (true)
-    {
-        ll rem = (a+i*b)%l;
-        if(mpp.find(rem)!=mpp.end()) break;
-        maxi = max(maxi,rem);
-        mpp[rem]++;
-        i++;
-
+    int len = 0;
+    len++;
+    k--;
+    while(k){
+        len+=x;
+        k--;
     }
-    cout<<maxi<<endl;
+
+    len+=(x-1)+1;
+    cout<<len<<endl;
+
 }
 
 //-------------------------------//

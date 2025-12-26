@@ -38,10 +38,10 @@ const ld EPS = 1e-9;
 //-------------------------------//
 //        DEBUG UTILS            //
 //-------------------------------//
-#ifdef LOCAL
-#define dbg(x) cerr << #x << " = " << x << endl
+#ifndef ONLINE_JUDGE
+#include "algo/debug.h"
 #else
-#define dbg(x)
+#define dbg(...) ((void)0)
 #endif
 
 //-------------------------------//
@@ -82,7 +82,45 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    
+    ll n; cin>>n;
+    unordered_map<ll,ll>fbits;
+    vector<vector<ll>>c;
+    for (int i = 0; i < n; i++)
+    {
+        ll k; cin>>k;
+        vl temp;
+        for (int j = 0; j < k; j++)
+        {
+            ll t; cin>>t;
+            fbits[t]++;
+            temp.pb(t);
+        }
+        c.pb(temp);
+    }
+    // dbg(fbits);
+
+    for (int i = 0; i < n; i++)
+    {
+        bool flag = true;
+        //checking to remove first ele
+        for (int j = 0; j < c[i].size(); j++)
+        {
+            ll t = fbits[c[i][j]];
+            t--;
+            if(t<=0) {
+                flag = false;
+                break;
+            }
+        }   
+        
+        if(flag==true) {
+            cout<<"Yes"<<endl;
+            return;
+        }
+
+    }
+    cout<<"No"<<endl;
+
 }
 
 //-------------------------------//

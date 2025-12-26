@@ -83,24 +83,23 @@ return splitmix64(x + FIXED_RANDOM);
 void solve() {
     // Your logic here
     ll n; cin>>n;
-    vector<string>v(n);
-    for(auto &x : v) cin>>x;
-
-    if(n==1) {
-        cout<<v[0]<<endl;
-        return;
-    }
-
-    string s = v[0];
-    for (int i = 1; i < n; i++)
+    vl a(n); for(auto &x : a) cin>>x;
+    ll tot = 0;
+    for (int i = 0; i < n-1; i++)
     {
-        string left = v[i]+s;
-        string right = s+v[i];
-        if(left>right) s = right;
-        else s = left;
+        ll difference = (ll)abs(a[i]-a[i+1]);
+        tot+=difference;
     }
+    
+    ll maxi = LLONG_MIN;
+    maxi = max(maxi,(ll)abs(a[1]-a[0]));
+    maxi = max(maxi,(ll)abs(a[n-1]-a[n-2]));
 
-    cout<<s<<endl;
+    for(int i = 1 ; i <n-1 ; i++){
+        ll t = abs(a[i]-a[i+1])+abs(a[i]-a[i-1])-abs(a[i+1]-a[i-1]);
+        maxi = max(maxi,t);
+    }
+    cout<<tot-maxi<<endl;
 }
 
 //-------------------------------//

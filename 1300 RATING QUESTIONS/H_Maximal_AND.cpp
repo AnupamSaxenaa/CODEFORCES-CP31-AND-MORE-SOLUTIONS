@@ -38,10 +38,10 @@ const ld EPS = 1e-9;
 //-------------------------------//
 //        DEBUG UTILS            //
 //-------------------------------//
-#ifdef LOCAL
-#define dbg(x) cerr << #x << " = " << x << endl
+#ifndef ONLINE_JUDGE
+#include "algo/debug.h"
 #else
-#define dbg(x)
+#define dbg(...) ((void)0)
 #endif
 
 //-------------------------------//
@@ -82,7 +82,44 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    
+    ll n,k; cin>>n>>k;
+    vl a(n); for(auto &x : a) cin>>x;
+
+    //mnaking a hashmap to mark bits 
+    vector<int>hash(32,0);
+    //going to every num and marking it in hash (accumulating bits)
+    for (int i = 0; i < n; i++)
+    {
+        int num = a[i];
+        for (int j = 0; j < 32; j++)
+            if((num & (1<<j)) != 0) hash[j]++;
+    }
+    //finding cost for every bit to set in the final answer
+    vi cost;
+    for (int i = 0; i < hash.size(); i++)
+    {
+        int c = n - hash[i];
+        cost.pb(c);
+    }
+    //fixing the best bits
+    for (int i = 30 ; i>=0; i--)
+    {
+        int spend = cost[i];
+        if(k==0) break;
+        else if(spend>k) continue;
+        else {
+            k-=spend;
+            hash[i] = n;
+        }
+    }
+    //building the num;
+    ll num = 0;
+    for (int i = 0; i < hash.size(); i++)
+    {
+        if(hash[i]==n)
+        num+=(1<<i);
+    }
+    cout<<num<<endl;
 }
 
 //-------------------------------//

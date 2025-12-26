@@ -38,10 +38,10 @@ const ld EPS = 1e-9;
 //-------------------------------//
 //        DEBUG UTILS            //
 //-------------------------------//
-#ifdef LOCAL
-#define dbg(x) cerr << #x << " = " << x << endl
+#ifndef ONLINE_JUDGE
+#include "algo/debug.h"
 #else
-#define dbg(x)
+#define dbg(...) ((void)0)
 #endif
 
 //-------------------------------//
@@ -80,9 +80,38 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
+ll getm(ll mid,ll k){
+    if(mid<=k){
+        ll ret = (mid*(mid+1))/2;
+        return ret;
+    }
+    else{
+        ll f = (k*(k+1))/2;
+        ll rem = (k-1) - (mid-k);
+        ll tot = (k*(k-1))/2;
+        ll ret = f+tot-(rem*(rem+1))/2;
+        return ret;
+    }
+}
+
 void solve() {
     // Your logic here
-    
+    ll k,x; cin>>k>>x;
+    ll l = 1 , r = 2*k-1 , ans = 2*k-1;
+
+    while(l<=r){
+        ll mid = (l+r)>>1;
+        ll m = getm(mid,k);
+        if(m>=x){
+            r = mid-1;
+            ans = mid;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+
+    cout<<ans<<endl;
 }
 
 //-------------------------------//

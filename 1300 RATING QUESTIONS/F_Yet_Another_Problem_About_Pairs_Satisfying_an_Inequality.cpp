@@ -38,10 +38,10 @@ const ld EPS = 1e-9;
 //-------------------------------//
 //        DEBUG UTILS            //
 //-------------------------------//
-#ifdef LOCAL
-#define dbg(x) cerr << #x << " = " << x << endl
+#ifndef ONLINE_JUDGE
+#include "algo/debug.h"
 #else
-#define dbg(x)
+#define dbg(...) ((void)0)
 #endif
 
 //-------------------------------//
@@ -82,7 +82,35 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
+    ll n; cin>>n;
+    vector<pair<ll,ll>>v;
+    for (int i = 1; i <= n; i++)
+    {
+        ll t;
+        cin>>t;
+        pair<ll,ll>temp = {t,i};
+        if(i>t)
+        v.pb(temp);
+    }
+    sort(all(v));
+    vector<ll>val;
+    vector<ll>pos;
+    for (int i = 0; i < v.size(); i++)
+    {
+        ll t = v[i].first;
+        ll p = v[i].second;
+        val.pb(t); pos.pb(p);
+    }
+    v.clear();
     
+    ll ans = 0;
+    for (int i = 0; i+1 < pos.size(); i++)
+    {
+        auto it = upper_bound(all(val), pos[i]);
+        int idx = it-val.begin();
+        if(it!=val.end() && idx!=i) ans+=(pos.size()-idx);
+    }
+    cout<<ans<<endl;
 }
 
 //-------------------------------//

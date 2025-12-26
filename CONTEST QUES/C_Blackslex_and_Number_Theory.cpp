@@ -82,7 +82,9 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    
+    ll n; cin>>n; vl a(n); for(auto &x : a) cin>>x;
+    sort(all(a));
+    cout<<max(a[0],a[1]-a[0])<<endl;
 }
 
 //-------------------------------//
