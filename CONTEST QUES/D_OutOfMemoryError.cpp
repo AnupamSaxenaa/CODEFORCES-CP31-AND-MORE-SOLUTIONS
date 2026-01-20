@@ -61,35 +61,67 @@ ll mod_pow(ll a, ll b, ll m = MOD) {
     return res;
 }
 
+ll nCr(int n, int r) {
+    if (r < 0 || r > n) return 0;
+    r = min(r, n - r);
+    ll res = 1;
+    for (int i = 1; i <= r; i++) {
+        res = res * (n - r + i) / i;
+    }
+    return res;
+}
+
 //-------------------------------//
 //          CUSTOM HASH          //
 //-------------------------------//
 struct CustomHash {
-static uint64_t splitmix64(uint64_t x) {
-x += 0x9e3779b97f4a7c15;
-x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-return x ^ (x >> 31);
+    static uint64_t splitmix64(uint64_t x) {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
-size_t operator()(uint64_t x) const {
-static const uint64_t FIXED_RANDOM = 
-chrono::steady_clock::now().time_since_epoch().count();
-return splitmix64(x + FIXED_RANDOM);
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM =
+            chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
     }
 };
+
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
 void solve() {
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    ll n,m,h; cin>>n>>m>>h; 
+    vl a(n); for(auto &x : a) cin>>x;
+    int l = 0 , r  = 0;
+    vector<pair<ll,ll>>p;
+    while(m)
+    {
+        ll b,c; cin>>b>>c;
+        --b;
+
+        p.pb({b,c});
+        a[b]+=c;
+        if(a[b]>h){
+            while (l!=r)
+            {
+                a[p[l].first]-=p[l].second;
+                l++;
+            }
+            //one extra clean for. l==r;
+            a[p[l].first]-=p[l].second;
+            r++;
+            l++;
+        }else{
+            r++;
+        }
+        m--;
+    }
+
+    for(auto &x : a) cout<<x<<" ";
+    cout<<endl;
 }
 
 //-------------------------------//

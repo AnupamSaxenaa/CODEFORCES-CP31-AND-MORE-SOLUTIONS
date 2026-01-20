@@ -82,14 +82,17 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    ll s,k,m;
+    cin>>s>>k>>m;
+    if(k>=s) {
+        if(m%k<=s) cout<<(s-(m%k))<<endl;
+        else cout<<0<<endl;
+    }else{
+        ll flips = m/k;
+        ll diff = m%k;
+        if(flips%2==0) cout<<s-diff<<endl;
+        else cout<<k-diff<<endl;
+    }
 }
 
 //-------------------------------//

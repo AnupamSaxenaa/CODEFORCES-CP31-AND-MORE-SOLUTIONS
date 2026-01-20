@@ -2,7 +2,7 @@
 using namespace std;
 
 //-------------------------------//
-//          MACROS               //
+//            MACROS             //
 //-------------------------------//
 #define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
 #define all(x) (x).begin(), (x).end()
@@ -29,7 +29,7 @@ using vpii = vector<pii>;
 using vpll = vector<pll>;
 
 //-------------------------------//
-//        CONSTANTS              //
+//          CONSTANTS            //
 //-------------------------------//
 const ll MOD = 1e9 + 7;
 const ll INF = 1e18;
@@ -82,14 +82,13 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 void solve() {
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    ll n; cin>>n;
+    if(n%2!=0) {
+        ll vh = ceil(n/2.0);
+        cout<<(1+ceil(n/2.0))*vh*2<<endl;
+    }else{
+        cout<<(n/2+1)*(n/2+1)<<endl;
+    }
 }
 
 //-------------------------------//
@@ -98,7 +97,7 @@ void solve() {
 int main() {
     fastio;
     int t = 1;
-    cin >> t; // uncomment if multiple test cases
+    // cin >> t; // uncomment if multiple test cases
     while (t--) solve();
     return 0;
 }

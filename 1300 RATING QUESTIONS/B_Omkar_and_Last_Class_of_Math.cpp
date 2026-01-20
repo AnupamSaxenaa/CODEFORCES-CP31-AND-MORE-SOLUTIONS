@@ -4,7 +4,9 @@ using namespace std;
 //-------------------------------//
 //          MACROS               //
 //-------------------------------//
-#define fastio ios::sync_with_stdio(false); cin.tie(nullptr);
+#define fastio                   \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define pb push_back
@@ -51,12 +53,28 @@ ll gcdll(ll a, ll b) { return b ? gcdll(b, a % b) : a; }
 ll lcmll(ll a, ll b) { return (a / gcdll(a, b)) * b; }
 ll mod_add(ll a, ll b, ll m = MOD) { return (a + b) % m; }
 ll mod_mul(ll a, ll b, ll m = MOD) { return (a * b) % m; }
-ll mod_pow(ll a, ll b, ll m = MOD) {
+ll mod_pow(ll a, ll b, ll m = MOD)
+{
     ll res = 1;
-    while (b) {
-        if (b & 1) res = (res * a) % m;
+    while (b)
+    {
+        if (b & 1)
+            res = (res * a) % m;
         a = (a * a) % m;
         b >>= 1;
+    }
+    return res;
+}
+
+ll nCr(int n, int r)
+{
+    if (r < 0 || r > n)
+        return 0;
+    r = min(r, n - r);
+    ll res = 1;
+    for (int i = 1; i <= r; i++)
+    {
+        res = res * (n - r + i) / i;
     }
     return res;
 }
@@ -64,41 +82,77 @@ ll mod_pow(ll a, ll b, ll m = MOD) {
 //-------------------------------//
 //          CUSTOM HASH          //
 //-------------------------------//
-struct CustomHash {
-static uint64_t splitmix64(uint64_t x) {
-x += 0x9e3779b97f4a7c15;
-x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-return x ^ (x >> 31);
+struct CustomHash
+{
+    static uint64_t splitmix64(uint64_t x)
+    {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
-size_t operator()(uint64_t x) const {
-static const uint64_t FIXED_RANDOM = 
-chrono::steady_clock::now().time_since_epoch().count();
-return splitmix64(x + FIXED_RANDOM);
+    size_t operator()(uint64_t x) const
+    {
+        static const uint64_t FIXED_RANDOM =
+            chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
     }
 };
+
+ll lcm(ll a, ll b)
+{
+    ll prod = a * b;
+    while (a)
+    {
+        ll temp = a;
+        a = b % a;
+        b = temp;
+    }
+    return prod / b;
+}
+
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
-void solve() {
+void solve()
+{
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    ll n;
+    cin >> n;
+    if(n%2==0){
+        cout<<n/2<<" "<<n/2<<endl;
+        return;
+    }
+    ll ast = 1, bot = n - 1, ans = lcm(ast, bot);
+    for (int i = 1; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ll k = i - 1;
+            if (k <= 0)
+                continue;
+
+            ll x = n/i,y = n-x,res = lcm(x,y);
+            if(res<ans){
+                ans = res;
+                bot = y;
+                ast = x;
+            }
+        }
+    }
+
+    cout<<ast<<" "<<bot<<endl;
 }
 
 //-------------------------------//
 //             MAIN              //
 //-------------------------------//
-int main() {
+int main()
+{
     fastio;
     int t = 1;
     cin >> t; // uncomment if multiple test cases
-    while (t--) solve();
+    while (t--)
+        solve();
     return 0;
 }

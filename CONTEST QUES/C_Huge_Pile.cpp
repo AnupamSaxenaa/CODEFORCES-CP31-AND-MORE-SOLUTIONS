@@ -80,16 +80,47 @@ return splitmix64(x + FIXED_RANDOM);
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
+bool found = false;
+ll mintime = LLONG_MAX;
+unordered_map<ll,int,CustomHash>mp;
+void calcpls(ll n, ll k, ll time)
+{
+    if (n == k) {
+        found = true;
+        mintime = min(mintime, time);
+        return;
+    }
+    if (n <= 1) return;
+
+    ll lp = n >> 1;
+    ll rp = (n + 1) >> 1;
+    time++;
+    if (k <= lp && mp.find(lp)==mp.end()) {
+        mp[lp]++;
+        calcpls(lp, k, time);
+    }
+    if(k<=rp && lp!=rp && mp.find(rp)==mp.end()){
+        mp[rp]++;
+        calcpls(rp, k, time);
+    }
+}
+
+
 void solve() {
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    found = false;
+    mintime = LLONG_MAX;
+    mp.clear();
+    ll n,k;
+    cin>>n>>k;
+    ll time = 0;
+    if(n==k){
+        cout<<time<<endl;
+        return;
+    }
+    calcpls(n,k,time);
+    if(found==false) cout<<-1<<endl;
+    else cout<<mintime<<endl;
 }
 
 //-------------------------------//

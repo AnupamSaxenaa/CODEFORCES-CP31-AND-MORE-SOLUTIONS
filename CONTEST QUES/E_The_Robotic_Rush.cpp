@@ -61,35 +61,91 @@ ll mod_pow(ll a, ll b, ll m = MOD) {
     return res;
 }
 
+ll nCr(int n, int r) {
+    if (r < 0 || r > n) return 0;
+    r = min(r, n - r);
+    ll res = 1;
+    for (int i = 1; i <= r; i++) {
+        res = res * (n - r + i) / i;
+    }
+    return res;
+}
+
 //-------------------------------//
 //          CUSTOM HASH          //
 //-------------------------------//
 struct CustomHash {
-static uint64_t splitmix64(uint64_t x) {
-x += 0x9e3779b97f4a7c15;
-x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-return x ^ (x >> 31);
+    static uint64_t splitmix64(uint64_t x) {
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
-size_t operator()(uint64_t x) const {
-static const uint64_t FIXED_RANDOM = 
-chrono::steady_clock::now().time_since_epoch().count();
-return splitmix64(x + FIXED_RANDOM);
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM =
+            chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
     }
 };
+
 //-------------------------------//
 //           SOLVE               //
 //-------------------------------//
 void solve() {
     // Your logic here
-    int n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    sort(all(s));
-    sort(all(t));
-    if(s==t) yes;
-    else no;
+    ll n,m,k; cin>>n>>m>>k;
+    vl a(n); for(auto &x : a) cin>>x;
+    vl b(m); for(auto &x : b) cin>>x;
+    string s; cin>>s;
+    
+    unordered_map<ll,ll,CustomHash>mpp;
+    ll disp = 0;
+    for (int i = 0; i < k; i++)
+    {
+        if(s[i]=='L') disp-=1;
+        else disp+=1;
+        if(mpp.find(disp)==mpp.end()) mpp[disp] = i;
+    }
+    
+    sort(all(a));
+    sort(all(b));
+    int l = 0;
+    vector<ll>t(k,0);
+    for (int i = 0; i < n; i++)
+    {
+        ll ans = LLONG_MAX;
+        while (l<m && a[i]>b[l])
+            l++;
+        if(l<m){
+            ll nig = b[l]-a[i];
+            auto it = mpp.find(nig);
+            if(it!=mpp.end())
+            {
+                ll ops = it->second;
+                ans = min(ans,ops);
+            }
+        }
+        if((l-1)>=0){
+            ll nig = b[l-1]-a[i];
+            auto it = mpp.find(nig);
+            if(it!=mpp.end())
+            {
+                ll ops = it->second;
+                ans = min(ans,ops);
+            }
+        }
+        if(ans!=LLONG_MAX){
+            t[ans]++;
+        }
+        
+    }
+    ll robs = n;
+    for (int i = 0; i < t.size(); i++)
+    {
+        robs-=t[i];
+        cout<<robs<<" ";
+    }
+    cout<<endl;
 }
 
 //-------------------------------//
