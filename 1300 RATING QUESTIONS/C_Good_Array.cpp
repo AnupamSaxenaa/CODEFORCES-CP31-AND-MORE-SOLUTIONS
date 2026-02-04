@@ -105,30 +105,37 @@ struct CustomHash
 void solve()
 {
     // Your logic here
-    string s;
-    cin >> s;
-    int n = s.size();
-    ll totw = 0, lw = 0;
-
-    for (int i = 1; i < n; i++)
+    ll n;
+    cin >> n;
+    vl a(n);
+    for (auto &x : a)
+        cin >> x;
+    ll sum = accumulate(all(a), 0LL);
+    unordered_map<ll, int> mpp;
+    for (int i = 0; i < n; i++)
+        mpp[a[i]]++;
+    vl ans;
+    for (int i = 0; i < n; i++)
     {
-        if (s[i] == s[i - 1] && s[i] == 'v')
-            totw++;
+        ll t = (sum - a[i]);
+        if (t % 2 != 0)
+            continue;
+        t /= 2;
+        mpp[a[i]]--;
+        if(mpp[t]>0) ans.pb(i+1);
+        mpp[a[i]]++;
+
     }
 
-    ll tot = 0;
-
-    for (int i = 1; i < n; i++)
-    {
-        if (s[i] == s[i - 1] && s[i] == 'v')
-        {
-            lw++;
-            totw--;
-        }
-        if(s[i]=='o') tot+=lw*totw;
+    if(ans.size()==0){
+        cout<<0<<endl;
+        return;
     }
-
-    cout<<tot<<endl;
+    cout << ans.size() << endl;
+    for (auto &x : ans)
+        cout << x << " ";
+    cout << endl;
+    return;
 }
 
 //-------------------------------//

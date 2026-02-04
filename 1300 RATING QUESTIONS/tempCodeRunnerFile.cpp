@@ -1,0 +1,1 @@
+    // cin >> t; // uncomment if multiple test cases
